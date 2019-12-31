@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Bouncy Ball</title>
+</head>
+<body>
+  
+  <canvas id="canvas" width="500" height="400"></canvas>
+  <script>
+    const fps = 60;
+    let ballSize = 30;
+    let ballX,ballY;
+    let xVelocity, yVelocity;
+    let canvas, context;
+  
+    canvas = document.getElementById("canvas");
+    context = canvas.getContext("2d");
+
+    setInterval(update, 1000 / fps);
+
+    //position de depart de la balle 
+    ballX = canvas.width/2;
+    ballY = canvas.height/2;
+
+    //vitesse de départ random
+    
+    xVelocity = Math.floor(Math.random() * 100 + 100)/fps;
+    yVelocity = Math.floor(Math.random() * 100 + 100)/fps;
+   // console.log(xVelocity);
+   // console.log(yVelocity);
+    //ball direction
+    if(Math.floor(Math.random() * 2) == 0){
+      xVelocity = -xVelocity;
+    }
+    if(Math.floor(Math.random() * 2) == 0){
+      yVelocity = -yVelocity;
+    }
+
+    function update(){
+      //deplacement ball
+      ballX += xVelocity;
+      ballY += yVelocity;
+
+
+      //bounce into the wal
+      if(ballX - ballSize/2 < 0 && xVelocity < 0){
+        xVelocity = -xVelocity;
+      }
+      if(ballX + ballSize/2 > canvas.width && xVelocity > 0){
+        xVelocity = -xVelocity;
+      }
+      if(ballY - ballSize/2 < 0 && yVelocity < 0){
+        yVelocity = -yVelocity;
+      }
+      if(ballY + ballSize/2 > canvas.height && yVelocity > 0){
+        yVelocity = -yVelocity;
+      }
+
+      context.fillStyle = "black";
+      context.fillRect(0,0,canvas.width,canvas.height);
+      context.fillStyle = "red";
+      context.fillRect(ballX - ballSize /2 ,ballY - ballSize /2,ballSize,ballSize);
+    }
+  </script>
+  
+</body>
+</html>
